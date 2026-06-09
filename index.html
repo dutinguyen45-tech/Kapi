@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAPI - Ghim cài áo tái chế từ bã cà phê | Eco-friendly cho bé</title>
+    <meta name="description" content="KAPI biến bã cà phê thành ghim cài áo sinh học xinh xắn cho bé. Dạy trẻ yêu thiên nhiên qua sản phẩm tái chế 100% thân thiện môi trường.">
+    <meta name="keywords" content="ghim cài áo tái chế, bã cà phê, eco-friendly, đồ chơi sinh học, bảo vệ môi trường, quà tặng xanh">
+    <meta name="author" content="KAPI Project">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="KAPI - Từ bã cà phê xanh, cho cuộc sống an lành">
+    <meta property="og:description" content="Mỗi chiếc ghim nhỏ nhắn trên ngực áo của bé hôm nay là một câu chuyện tái sinh kỳ diệu của bã cà phê hôm qua.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kapiproject.com">
+    <meta property="og:image" content="https://kapiproject.com/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="KAPI - Ghim cài áo tái chế từ bã cà phê">
+    <meta name="twitter:description" content="Mỗi chiếc ghim nhỏ nhắn trên ngực áo của bé hôm nay là một câu chuyện tái sinh kỳ diệu.">
+    <meta name="twitter:image" content="https://kapiproject.com/og-image.jpg">
+    <link rel="canonical" href="https://kapiproject.com">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { quicksand: ['Quicksand', 'sans-serif'] },
+                    colors: {
+                        coffee: '#5C4033',
+                        cream: '#F5F2E9',
+                        leaf: '#4A7C59',
+                        'leaf-light': '#E8F0E8',
+                        'leaf-dark': '#3A6349',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Quicksand', sans-serif; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left.active { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right.active { opacity: 1; transform: translateX(0); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale.active { opacity: 1; transform: scale(1); }
+
+        #preloader {
+            position: fixed; inset: 0; z-index: 9999;
+            background: #F5F2E9;
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; gap: 1.5rem;
+            transition: opacity 0.6s, visibility 0.6s;
+        }
+        #preloader.hidden { opacity: 0; visibility: hidden; }
+        .loader { width: 48px; height: 48px; border: 4px solid #E8F0E8; border-top-color: #4A7C59; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .toast {
+            position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+            padding: 1rem 1.5rem; border-radius: 1rem;
+            background: #4A7C59; color: white; font-weight: 600;
+            transform: translateY(100px); opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(74,124,89,0.3);
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        .product-card { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(92,64,51,0.1); }
+
+        .page-card { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .page-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 50px rgba(74,124,89,0.15); }
+
+        @media (max-width: 768px) {
+            .parallax-bg { background-attachment: scroll; }
+        }
+    </style>
+</head>
+<body class="bg-cream text-gray-800 antialiased selection:bg-leaf selection:text-white">
+
+    <div id="preloader">
+        <div class="loader"></div>
+        <p class="text-coffee font-bold text-lg animate-pulse">🌱 KAPI đang gieo mầm xanh...</p>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <div id="cart-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden transition-opacity duration-300" onclick="toggleCart()">
+        <div class="absolute right-0 top-0 h-full w-full max-w-md bg-cream p-6 shadow-2xl overflow-y-auto" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-coffee">🛒 Giỏ hàng</h2>
+                <button onclick="toggleCart()" class="w-10 h-10 rounded-full bg-coffee/10 flex items-center justify-center text-coffee font-bold hover:bg-coffee/20 transition">✕</button>
+            </div>
+            <div id="cart-items" class="space-y-4">
+                <p class="text-gray-500 text-center py-12">Giỏ hàng trống</p>
+            </div>
+            <div id="cart-total" class="hidden mt-6 pt-6 border-t border-coffee/10 space-y-4">
+                <div class="flex justify-between text-lg font-bold text-coffee">
+                    <span>Tổng cộng:</span>
+                    <span id="cart-total-amount">0₫</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-leaf text-white py-3 rounded-full font-bold hover:bg-leaf-dark transition shadow-lg shadow-leaf/25">
+                    Thanh toán ngay →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="sticky top-0 z-40 bg-cream/90 backdrop-blur-xl border-b border-coffee/10 px-6 py-4 transition-all duration-300" id="navbar">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2 text-2xl font-extrabold text-coffee group">
+                <span class="group-hover:animate-wiggle inline-block">🌱</span>
+                <span class="tracking-wide">KAPI</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6 font-semibold text-coffee/80">
+                <a href="cau-chuyen-hat-ca-phe.html" class="hover:text-leaf transition">Câu chuyện</a>
+                <a href="dat-hang.html" class="hover:text-leaf transition">Đặt hàng</a>
+                <a href="tu-van.html" class="hover:text-leaf transition">Tư vấn</a>
+                <a href="hanh-dong-xanh.html" class="hover:text-leaf transition">Hành động xanh</a>
+                <a href="#pages" class="hover:text-leaf transition relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-leaf after:transition-all hover:after:w-full">Khám phá</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="toggleCart()" class="relative p-2 hover:bg-coffee/10 rounded-full transition">
+                    🛒
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-leaf text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+                </button>
+                <button id="mobile-menu-btn" class="md:hidden p-2 hover:bg-coffee/10 rounded-full transition text-2xl">☰</button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 space-y-3 text-center">
+            <a href="cau-chuyen-hat-ca-phe.html" class="block py-2 font-semibold text-coffee/80 hover:text-leaf transition" onclick="closeMobileMenu()">Câu chuyện</a>
+            <a href="dat-hang.html" class="block py-2 font-semibold text-coffee/80 hover:text-leaf transition" onclick="closeMobileMenu()">Đặt hàng</a>
+            <a href="tu-van.html" class="block py-2 font-semibold text-coffee/80 hover:text-leaf transition" onclick="closeMobileMenu()">Tư vấn</a>
+            <a href="hanh-dong-xanh.html" class="block py-2 font-semibold text-coffee/80 hover:text-leaf transition" onclick="closeMobileMenu()">Hành động xanh</a>
+            <a href="#pages" class="block py-2 font-semibold text-coffee/80 hover:text-leaf transition" onclick="closeMobileMenu()">Khám phá</a>
+        </div>
+    </nav>
+
+    <section class="relative min-h-[90vh] flex items-center px-6 py-12 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-leaf-light/30 to-transparent pointer-events-none"></div>
+        <div class="absolute top-20 left-10 w-72 h-72 bg-leaf/5 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-coffee/5 rounded-full blur-3xl animate-pulse"></div>
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
+            <div class="space-y-6 text-center md:text-left reveal-left">
+                <span class="bg-leaf-light text-leaf px-4 py-1.5 rounded-full text-sm font-bold tracking-wide uppercase inline-block animate-pulse">
+                    🌱 Dự án Eco-friendly cho trẻ em
+                </span>
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-coffee leading-[1.1]">
+                    Từ bã cà phê xanh <br>
+                    <span class="text-leaf relative inline-block">
+                        cho cuộc sống an lành
+                        <span class="absolute -bottom-2 left-0 w-full h-3 bg-leaf/20 rounded-full"></span>
+                    </span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-lg mx-auto md:mx-0 leading-relaxed">
+                    Mỗi chiếc ghim nhỏ nhắn trên ngực áo của bé hôm nay là một câu chuyện tái sinh kỳ diệu của bã cà phê hôm qua. Cùng KAPI dạy bé yêu bài học đầu đời về bảo vệ Trái Đất.
+                </p>
+                <div class="pt-4 flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+                    <a href="#pages" class="bg-leaf text-white px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-all shadow-lg shadow-leaf/35 text-center">
+                        Khám Phá Thế Giới Xanh ↓
+                    </a>
+                    <a href="dat-hang.html" class="border-2 border-coffee text-coffee px-8 py-4 rounded-full font-bold text-lg hover:bg-coffee hover:text-cream transition text-center">
+                        Đặt Ghim Ngay
+                    </a>
+                </div>
+                <div class="flex items-center gap-6 pt-4 justify-center md:justify-start text-sm text-gray-500">
+                    <span>♻️ Tái chế</span>
+                    <span>🌿 Hữu cơ</span>
+                    <span>🧒 An toàn cho bé</span>
+                </div>
+            </div>
+            <div class="flex justify-center relative reveal-right">
+                <div class="w-72 h-72 md:w-[26rem] md:h-[26rem] bg-coffee/10 rounded-full absolute -z-10 blur-2xl animate-float"></div>
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-2xl border-4 border-coffee/10 max-w-sm text-center relative hover:rotate-2 transition duration-500 hover:shadow-leaf/10">
+                    <div class="w-40 h-48 md:w-48 md:h-56 bg-coffee mx-auto rounded-full relative flex items-center justify-center shadow-lg">
+                        <div class="absolute top-1/3 left-1/4 w-4 h-4 bg-white rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-black rounded-full"></div></div>
+                        <div class="absolute top-1/3 right-1/4 w-4 h-4 bg-white rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-black rounded-full"></div></div>
+                        <div class="absolute top-1/2 left-5 w-4 h-2 bg-red-400 rounded-full opacity-60"></div>
+                        <div class="absolute top-1/2 right-5 w-4 h-2 bg-red-400 rounded-full opacity-60"></div>
+                        <div class="absolute top-1/2 w-6 h-3 border-b-4 border-white rounded-b-full"></div>
+                    </div>
+                    <p class="mt-4 font-bold text-coffee text-xl">Xin chào! Tớ là Bé Hạt KAPI ☕</p>
+                    <span class="text-sm text-gray-500 block mt-1">"Tớ biến rác thải thành niềm vui của bé!"</span>
+                    <div class="mt-4 flex justify-center gap-2 text-lg">
+                        <span class="hover:scale-110 transition cursor-pointer">🌸</span>
+                        <span class="hover:scale-110 transition cursor-pointer">🌻</span>
+                        <span class="hover:scale-110 transition cursor-pointer">🍀</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pages" class="py-20 px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center space-y-4 mb-16 reveal">
+                <span class="text-leaf font-bold text-sm tracking-widest uppercase">Khám phá</span>
+                <h2 class="text-3xl md:text-5xl font-bold text-coffee">Hành Trình Xanh Của KAPI</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">
+                    Mời ba mẹ và các bé cùng bước vào thế giới tái chế kỳ diệu — nơi bã cà phê bỏ đi hóa thành những người bạn nhỏ xinh trên ngực áo.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <a href="cau-chuyen-hat-ca-phe.html" class="page-card bg-cream rounded-3xl overflow-hidden border border-coffee/10 shadow-sm flex flex-col md:flex-row group">
+                    <div class="w-full md:w-48 h-48 md:h-auto bg-gradient-to-br from-amber-50 to-amber-100 flex items-center justify-center text-6xl shrink-0">
+                        ☕
+                    </div>
+                    <div class="p-6 flex flex-col justify-center">
+                        <span class="text-leaf font-bold text-xs tracking-widest uppercase">Bài học</span>
+                        <h3 class="text-xl font-bold text-coffee mt-1 group-hover:text-leaf transition">Câu Chuyện Hạt Cà Phê</h3>
+                        <p class="text-gray-600 text-sm mt-2">Hành trình kỳ diệu từ hạt cà phê đến chiếc ghim tái chế — bài học xanh đầu đời cho bé.</p>
+                        <span class="text-leaf font-semibold text-sm mt-3 group-hover:translate-x-2 transition inline-block">Khám phá →</span>
+                    </div>
+                </a>
+
+                <a href="dat-hang.html" class="page-card bg-cream rounded-3xl overflow-hidden border border-coffee/10 shadow-sm flex flex-col md:flex-row group">
+                    <div class="w-full md:w-48 h-48 md:h-auto bg-gradient-to-br from-leaf-light to-emerald-100 flex items-center justify-center text-6xl shrink-0">
+                        🛍️
+                    </div>
+                    <div class="p-6 flex flex-col justify-center">
+                        <span class="text-leaf font-bold text-xs tracking-widest uppercase">Cửa hàng</span>
+                        <h3 class="text-xl font-bold text-coffee mt-1 group-hover:text-leaf transition">Đặt Hàng</h3>
+                        <p class="text-gray-600 text-sm mt-2">Chọn ngay ghim cài áo sinh học cho bé. Miễn phí giao hàng cho đơn trên 99.000₫!</p>
+                        <span class="text-leaf font-semibold text-sm mt-3 group-hover:translate-x-2 transition inline-block">Đặt ngay →</span>
+                    </div>
+                </a>
+
+                <a href="tu-van.html" class="page-card bg-cream rounded-3xl overflow-hidden border border-coffee/10 shadow-sm flex flex-col md:flex-row group">
+                    <div class="w-full md:w-48 h-48 md:h-auto bg-gradient-to-br from-sky-50 to-blue-100 flex items-center justify-center text-6xl shrink-0">
+                        💬
+                    </div>
+                    <div class="p-6 flex flex-col justify-center">
+                        <span class="text-leaf font-bold text-xs tracking-widest uppercase">Hỗ trợ</span>
+                        <h3 class="text-xl font-bold text-coffee mt-1 group-hover:text-leaf transition">Tư Vấn Trực Tuyến</h3>
+                        <p class="text-gray-600 text-sm mt-2">Trò chuyện với KAPI Bot — giải đáp mọi thắc mắc về sản phẩm, giao hàng và đặt hàng.</p>
+                        <span class="text-leaf font-semibold text-sm mt-3 group-hover:translate-x-2 transition inline-block">Trò chuyện →</span>
+                    </div>
+                </a>
+
+                <a href="hanh-dong-xanh.html" class="page-card bg-cream rounded-3xl overflow-hidden border border-coffee/10 shadow-sm flex flex-col md:flex-row group">
+                    <div class="w-full md:w-48 h-48 md:h-auto bg-gradient-to-br from-green-50 to-teal-100 flex items-center justify-center text-6xl shrink-0">
+                        🌍
+                    </div>
+                    <div class="p-6 flex flex-col justify-center">
+                        <span class="text-leaf font-bold text-xs tracking-widest uppercase">Thử thách</span>
+                        <h3 class="text-xl font-bold text-coffee mt-1 group-hover:text-leaf transition">Hành Động Xanh</h3>
+                        <p class="text-gray-600 text-sm mt-2">Thử thách mỗi ngày cùng bé — phân loại rác, tắt đèn, tiết kiệm nước và hơn thế nữa!</p>
+                        <span class="text-leaf font-semibold text-sm mt-3 group-hover:translate-x-2 transition inline-block">Tham gia →</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 bg-coffee text-cream">
+        <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="reveal-scale">
+                <p class="text-3xl md:text-4xl font-extrabold text-amber-200 count-up" data-target="120">0</p>
+                <p class="text-sm md:text-base mt-2 text-cream/70">Kg bã cà phê đã thu gom</p>
+            </div>
+            <div class="reveal-scale">
+                <p class="text-3xl md:text-4xl font-extrabold text-amber-200 count-up" data-target="5000">0</p>
+                <p class="text-sm md:text-base mt-2 text-cream/70">Ghim đã đến tay bé</p>
+            </div>
+            <div class="reveal-scale">
+                <p class="text-3xl md:text-4xl font-extrabold text-amber-200 count-up" data-target="15">0</p>
+                <p class="text-sm md:text-base mt-2 text-cream/70">Đối tác cà phê</p>
+            </div>
+            <div class="reveal-scale">
+                <p class="text-3xl md:text-4xl font-extrabold text-amber-200 count-up" data-target="100">0</p>
+                <p class="text-sm md:text-base mt-2 text-cream/70">% Tự phân hủy</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 px-6 bg-cream">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center space-y-4 mb-16 reveal">
+                <span class="text-leaf font-bold text-sm tracking-widest uppercase">Sản phẩm</span>
+                <h2 class="text-3xl md:text-5xl font-bold text-coffee">Ghim Cài Áo Sinh Học</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">Mỗi chiếc ghim là một tác phẩm thủ công độc bản — an toàn tuyệt đối cho làn da của bé.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div class="bg-white rounded-3xl overflow-hidden border border-coffee/10 shadow-sm product-card flex flex-col p-6 text-center reveal-scale">
+                    <div class="w-full h-48 bg-gradient-to-br from-leaf-light to-emerald-100 rounded-2xl flex items-center justify-center text-6xl mb-6">🌱</div>
+                    <h3 class="text-xl font-bold text-coffee mb-2">Mầm Xanh Thức Giấc</h3>
+                    <p class="text-sm text-gray-500 mb-4 min-h-[40px]">Biểu tượng cho một mầm sống kiên cường vươn lên bảo vệ thiên nhiên xanh.</p>
+                    <div class="flex justify-between items-center mt-auto">
+                        <span class="text-lg font-bold text-leaf">35.000₫</span>
+                        <button onclick="addToCart('Mầm Xanh Thức Giấc', 35000, '🌱')" class="bg-coffee text-cream px-4 py-2 rounded-full text-sm font-bold hover:bg-leaf transition shadow-md">+ Thêm</button>
+                    </div>
+                    <span class="mt-3 inline-block text-leaf font-semibold bg-leaf-light px-4 py-1.5 rounded-full text-sm">60% Bã Cà Phê Mộc</span>
+                </div>
+
+                <div class="bg-white rounded-3xl overflow-hidden border-2 border-leaf shadow-lg product-card flex flex-col p-6 text-center reveal-scale">
+                    <span class="bg-amber-400 text-white text-xs font-bold px-3 py-1 rounded-full self-end mb-2">🌟 Bán chạy</span>
+                    <div class="w-full h-48 bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl flex items-center justify-center text-6xl mb-6">🧸</div>
+                    <h3 class="text-xl font-bold text-coffee mb-2">Bé Hạt Vui Vẻ</h3>
+                    <p class="text-sm text-gray-500 mb-4 min-h-[40px]">Hình tượng linh vật KAPI ngộ nghĩnh làm bạn đồng hành cùng bé đến trường.</p>
+                    <div class="flex justify-between items-center mt-auto">
+                        <span class="text-lg font-bold text-leaf">45.000₫</span>
+                        <button onclick="addToCart('Bé Hạt Vui Vẻ', 45000, '🧸')" class="bg-coffee text-cream px-4 py-2 rounded-full text-sm font-bold hover:bg-leaf transition shadow-md">+ Thêm</button>
+                    </div>
+                    <span class="mt-3 inline-block text-amber-600 font-semibold bg-amber-50 px-4 py-1.5 rounded-full text-sm">Best Seller 🌟</span>
+                </div>
+
+                <div class="bg-white rounded-3xl overflow-hidden border border-coffee/10 shadow-sm product-card flex flex-col p-6 text-center reveal-scale">
+                    <div class="w-full h-48 bg-gradient-to-br from-blue-50 to-sky-100 rounded-2xl flex items-center justify-center text-6xl mb-6">🌍</div>
+                    <h3 class="text-xl font-bold text-coffee mb-2">Hành Tinh Ôm Ấp</h3>
+                    <p class="text-sm text-gray-500 mb-4 min-h-[40px]">Lời nhắc nhở nhẹ nhàng về tình yêu dành cho Trái Đất thân yêu.</p>
+                    <div class="flex justify-between items-center mt-auto">
+                        <span class="text-lg font-bold text-leaf">40.000₫</span>
+                        <button onclick="addToCart('Hành Tinh Ôm Ấp', 40000, '🌍')" class="bg-coffee text-cream px-4 py-2 rounded-full text-sm font-bold hover:bg-leaf transition shadow-md">+ Thêm</button>
+                    </div>
+                    <span class="mt-3 inline-block text-leaf font-semibold bg-leaf-light px-4 py-1.5 rounded-full text-sm">100% Chất Liệu Sinh Học</span>
+                </div>
+            </div>
+
+            <div class="text-center reveal">
+                <a href="dat-hang.html" class="inline-block bg-leaf text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-leaf-dark transition shadow-lg shadow-leaf/25">
+                    Xem tất cả & Đặt hàng →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 bg-leaf text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(#406b4d_1px,transparent_1px)] [background-size:16px_16px] opacity-30"></div>
+        <div class="absolute top-10 left-10 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
+        <div class="absolute bottom-10 right-10 w-60 h-60 bg-white/5 rounded-full blur-2xl"></div>
+        <div class="max-w-4xl mx-auto text-center space-y-8 relative z-10">
+            <span class="text-5xl inline-block animate-float">🕊️</span>
+            <blockquote class="text-2xl md:text-4xl font-bold italic max-w-3xl mx-auto leading-relaxed reveal">
+                "Chúng ta không thừa kế Trái Đất từ tổ tiên,<br> chúng ta đang mượn nó từ thế hệ tương lai."
+            </blockquote>
+            <div class="w-16 h-1 bg-white/40 mx-auto rounded"></div>
+            <div class="space-y-4 max-w-2xl mx-auto reveal">
+                <h3 class="text-2xl font-bold">Bài học giáo dục xanh trực quan</h3>
+                <p class="text-white/80 text-base md:text-lg leading-relaxed">
+                    Thay vì những bài học khô khan lý thuyết trong sách vở, việc để bé tự tay cài chiếc ghim mộc mạc làm từ bã cà phê bỏ đi lên ngực áo mỗi buổi sáng chính là sự giáo dục môi trường thực tế và sâu sắc nhất.
+                </p>
+            </div>
+            <a href="cau-chuyen-hat-ca-phe.html" class="inline-block bg-white text-leaf font-bold px-8 py-3 rounded-full hover:bg-leaf-light transition shadow-lg">
+                Đọc câu chuyện →
+            </a>
+        </div>
+    </section>
+
+    <section class="py-20 px-6 bg-white">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center space-y-4 mb-16 reveal">
+                <span class="text-leaf font-bold text-sm tracking-widest uppercase">Phản hồi</span>
+                <h2 class="text-3xl md:text-5xl font-bold text-coffee">Ba mẹ nói gì về KAPI?</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-cream p-6 rounded-2xl border border-coffee/10 reveal-scale">
+                    <div class="flex text-amber-400 mb-3">⭐⭐⭐⭐⭐</div>
+                    <p class="text-gray-600 text-sm italic mb-4">"Bé nhà mình rất thích chiếc ghim hình mầm cây. Sáng nào cũng tự tay cài lên áo trước khi đi học, còn khoe với các bạn về câu chuyện bảo vệ môi trường nữa!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-leaf/20 rounded-full flex items-center justify-center font-bold text-leaf">MT</div>
+                        <div><p class="font-bold text-sm text-coffee">Minh Trang</p><p class="text-xs text-gray-500">Mẹ của bé Bông (5 tuổi)</p></div>
+                    </div>
+                </div>
+                <div class="bg-cream p-6 rounded-2xl border border-coffee/10 reveal-scale">
+                    <div class="flex text-amber-400 mb-3">⭐⭐⭐⭐⭐</div>
+                    <p class="text-gray-600 text-sm italic mb-4">"Sản phẩm ý nghĩa! Vừa dạy được con về tái chế, vừa có món đồ chơi handmade dễ thương. Chất liệu an toàn, không lo bé bỏ vào miệng."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-leaf/20 rounded-full flex items-center justify-center font-bold text-leaf">HA</div>
+                        <div><p class="font-bold text-sm text-coffee">Hoàng Anh</p><p class="text-xs text-gray-500">Ba của bé Su (3 tuổi)</p></div>
+                    </div>
+                </div>
+                <div class="bg-cream p-6 rounded-2xl border border-coffee/10 reveal-scale">
+                    <div class="flex text-amber-400 mb-3">⭐⭐⭐⭐⭐</div>
+                    <p class="text-gray-600 text-sm italic mb-4">"Cảm ơn KAPI đã mang giáo dục xanh đến gần hơn với trẻ em. Mình sẽ ủng hộ dài dài, mong dự án ngày càng phát triển!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-leaf/20 rounded-full flex items-center justify-center font-bold text-leaf">TN</div>
+                        <div><p class="font-bold text-sm text-coffee">Thu Ngân</p><p class="text-xs text-gray-500">Giáo viên mầm non</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 bg-leaf-dark/10">
+        <div class="max-w-lg mx-auto text-center space-y-4 reveal">
+            <span class="text-3xl">📬</span>
+            <h3 class="text-2xl font-bold text-coffee">Đăng ký theo dõi KAPI</h3>
+            <p class="text-gray-600 text-sm">Nhận thông tin sản phẩm mới, câu chuyện xanh và quà tặng độc quyền mỗi tháng.</p>
+            <form id="newsletter-form" class="flex flex-col sm:flex-row gap-2 pt-2">
+                <input type="email" id="newsletter-email" required placeholder="Email của ba mẹ..." class="flex-1 px-5 py-3 rounded-full border border-gray-200 focus:outline-none focus:border-leaf bg-white text-sm font-semibold">
+                <button type="submit" class="bg-leaf text-white font-bold px-6 py-3 rounded-full hover:bg-leaf-dark transition whitespace-nowrap text-sm shadow-md">
+                    Theo dõi 🌱
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="bg-coffee text-cream/70 pt-12 pb-6 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8 mb-10">
+                <div class="space-y-3">
+                    <p class="font-extrabold text-lg text-cream">🌱 KAPI</p>
+                    <p class="text-sm text-cream/60 leading-relaxed">Ghim cài áo sinh học tái chế từ bã cà phê. Dự án Eco-education cho trẻ em Việt Nam.</p>
+                </div>
+                <div class="space-y-3">
+                    <p class="font-bold text-sm text-cream uppercase tracking-wider">Khám phá</p>
+                    <div class="flex flex-col space-y-2 text-sm text-cream/60">
+                        <a href="cau-chuyen-hat-ca-phe.html" class="hover:text-cream transition">Câu chuyện hạt cà phê</a>
+                        <a href="dat-hang.html" class="hover:text-cream transition">Đặt hàng</a>
+                        <a href="hanh-dong-xanh.html" class="hover:text-cream transition">Hành động xanh</a>
+                        <a href="tu-van.html" class="hover:text-cream transition">Tư vấn</a>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <p class="font-bold text-sm text-cream uppercase tracking-wider">Hỗ trợ</p>
+                    <div class="flex flex-col space-y-2 text-sm text-cream/60">
+                        <a href="tu-van.html" class="hover:text-cream transition">Tư vấn trực tuyến</a>
+                        <a href="#" class="hover:text-cream transition">Chính sách đổi trả</a>
+                        <a href="#" class="hover:text-cream transition">Hướng dẫn bảo quản</a>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <p class="font-bold text-sm text-cream uppercase tracking-wider">Kết nối</p>
+                    <div class="flex space-x-3">
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition">📘</a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition">📸</a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition">▶️</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-6 text-center text-sm text-cream/40 space-y-2">
+                <div class="flex flex-wrap justify-center gap-4 text-xs">
+                    <a href="index.html" class="hover:text-cream transition">Trang chủ</a>
+                    <a href="cau-chuyen-hat-ca-phe.html" class="hover:text-cream transition">Câu chuyện</a>
+                    <a href="dat-hang.html" class="hover:text-cream transition">Đặt hàng</a>
+                    <a href="tu-van.html" class="hover:text-cream transition">Tư vấn</a>
+                    <a href="hanh-dong-xanh.html" class="hover:text-cream transition">Hành động xanh</a>
+                </div>
+                <p class="font-bold text-cream/60">🌱 KAPI PROJECT 2026</p>
+                <p>Ghim cài áo sinh học tái chế - Ươm mầm tương lai xanh từ những điều nhỏ bé nhất.</p>
+                <p>Made with ❤️ for Eco-Education</p>
+            </div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 bg-leaf text-white rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:scale-110 z-30 flex items-center justify-center text-xl">
+        ↑
+    </button>
+
+    <script>
+        const preloader = document.getElementById('preloader');
+        window.addEventListener('load', () => {
+            setTimeout(() => preloader.classList.add('hidden'), 800);
+        });
+
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            navbar.style.borderBottomColor = scrollY > 50 ? 'rgba(92,64,51,0.15)' : 'rgba(92,64,51,0.05)';
+            if (scrollY > 400) {
+                backToTop.classList.remove('opacity-0', 'invisible');
+            } else {
+                backToTop.classList.add('opacity-0', 'invisible');
+            }
+        });
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenuBtn.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+        });
+        window.closeMobileMenu = () => {
+            mobileMenu.classList.add('hidden');
+            mobileMenuBtn.textContent = '☰';
+        };
+
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const revealTop = el.getBoundingClientRect().top;
+                const revealPoint = 100;
+                if (revealTop < windowHeight - revealPoint) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        function animateCounters() {
+            const counters = document.querySelectorAll('.count-up');
+            counters.forEach(counter => {
+                const rect = counter.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100 && !counter.dataset.animated) {
+                    counter.dataset.animated = 'true';
+                    const target = parseInt(counter.dataset.target);
+                    const duration = 2000;
+                    const step = Math.ceil(target / (duration / 16));
+                    let current = 0;
+                    const timer = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            counter.textContent = target.toLocaleString() + '+';
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = current.toLocaleString();
+                        }
+                    }, 16);
+                }
+            });
+        }
+        window.addEventListener('scroll', animateCounters);
+        window.addEventListener('load', animateCounters);
+
+        let cart = JSON.parse(localStorage.getItem('kapi_cart') || '[]');
+        function updateCartUI() {
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            const badge = document.getElementById('cart-count');
+            if (count > 0) {
+                badge.textContent = count;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+            localStorage.setItem('kapi_cart', JSON.stringify(cart));
+        }
+        function addToCart(name, price, emoji) {
+            const existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ name, price, emoji, qty: 1 });
+            }
+            updateCartUI();
+            showToast(`✅ Đã thêm "${name}" vào giỏ hàng!`);
+        }
+        function toggleCart() {
+            const overlay = document.getElementById('cart-overlay');
+            const isOpen = !overlay.classList.contains('hidden');
+            overlay.classList.toggle('hidden');
+            document.body.style.overflow = isOpen ? '' : 'hidden';
+            if (!isOpen) renderCart();
+        }
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+            const totalAmount = document.getElementById('cart-total-amount');
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-12">🛒 Giỏ hàng trống</p>';
+                totalEl.classList.add('hidden');
+                return;
+            }
+            totalEl.classList.remove('hidden');
+            let total = 0;
+            container.innerHTML = cart.map((item, i) => {
+                total += item.price * item.qty;
+                return `<div class="flex items-center gap-4 bg-white p-4 rounded-2xl border border-coffee/10">
+                    <span class="text-3xl">${item.emoji}</span>
+                    <div class="flex-1">
+                        <p class="font-bold text-coffee">${item.name}</p>
+                        <p class="text-sm text-gray-500">${(item.price * item.qty).toLocaleString()}₫</p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <button onclick="updateQty(${i}, -1)" class="w-6 h-6 rounded-full bg-coffee/10 flex items-center justify-center text-sm font-bold hover:bg-coffee/20 transition">−</button>
+                            <span class="font-bold text-sm w-5 text-center">${item.qty}</span>
+                            <button onclick="updateQty(${i}, 1)" class="w-6 h-6 rounded-full bg-coffee/10 flex items-center justify-center text-sm font-bold hover:bg-coffee/20 transition">+</button>
+                        </div>
+                    </div>
+                    <button onclick="removeItem(${i})" class="text-red-400 hover:text-red-600 transition text-sm">✕</button>
+                </div>`;
+            }).join('');
+            totalAmount.textContent = total.toLocaleString() + '₫';
+        }
+        function updateQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            updateCartUI();
+            renderCart();
+        }
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+            renderCart();
+        }
+        function checkout() {
+            const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+            showToast(`💚 Cảm ơn ba mẹ! Tổng đơn: ${total.toLocaleString()}₫. KAPI sẽ liên hệ xác nhận!`);
+            cart = [];
+            updateCartUI();
+            toggleCart();
+        }
+        updateCartUI();
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('newsletter-email').value;
+            showToast(`📬 Cảm ơn ba mẹ! KAPI sẽ gửi tin vui đến ${email} mỗi tháng!`);
+            this.reset();
+            const subs = JSON.parse(localStorage.getItem('kapi_newsletter') || '[]');
+            subs.push({ email, timestamp: new Date().toISOString() });
+            localStorage.setItem('kapi_newsletter', JSON.stringify(subs));
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "KAPI Project",
+        "url": "https://kapiproject.com",
+        "logo": "https://kapiproject.com/logo.png",
+        "description": "Dự án eco-education biến bã cà phê thành ghim cài áo sinh học cho trẻ em.",
+        "address": { "@type": "PostalAddress", "addressLocality": "Hà Nội", "addressCountry": "VN" },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+84-912-345-678",
+            "contactType": "customer service",
+            "email": "hello@kapiproject.com"
+        },
+        "sameAs": [
+            "https://facebook.com/kapiproject",
+            "https://instagram.com/kapiproject"
+        ]
+    }
+    </script>
+</body>
+</html>
