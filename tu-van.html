@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trò chuyện tư vấn - KAPI Project</title>
+    <meta name="description" content="KAPI tư vấn miễn phí — giải đáp mọi thắc mắc về sản phẩm, đặt hàng, giáo dục xanh cho bé.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { quicksand: ['Quicksand', 'sans-serif'] },
+                    colors: { coffee: '#5C4033', cream: '#F5F2E9', leaf: '#4A7C59', 'leaf-dark': '#3A6349' },
+                    animation: { 'float': 'float 6s ease-in-out infinite' },
+                    keyframes: { float: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-10px)' } } }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Quicksand', sans-serif; }
+        .chat-msg { animation: fadeInUp 0.3s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse-dot { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+        .typing-dot { animation: pulse-dot 1.2s infinite; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16,1,0.3,1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        footer a { transition: all 0.2s; }
+    </style>
+</head>
+<body class="bg-cream text-gray-800 antialiased selection:bg-leaf selection:text-white quicksand">
+
+    <nav class="sticky top-0 z-40 bg-cream/90 backdrop-blur-xl border-b border-coffee/10 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="mystory.html" class="flex items-center space-x-2 text-2xl font-extrabold text-coffee">
+                <span>🌱</span><span>KAPI</span>
+            </a>
+            <div class="hidden md:flex space-x-6 font-semibold text-coffee/80">
+                <a href="cau-chuyen-hat-ca-phe.html" class="hover:text-leaf transition">Câu chuyện</a>
+                <a href="dat-hang.html" class="hover:text-leaf transition">Đặt hàng</a>
+                <a href="tu-van.html" class="text-leaf font-bold">Tư vấn</a>
+                <a href="hanh-dong-xanh.html" class="hover:text-leaf transition">Hành động xanh</a>
+            </div>
+            <a href="mystory.html" class="bg-leaf text-white px-5 py-2 rounded-full font-bold hover:brightness-110 transition text-sm">← Về trang chủ</a>
+        </div>
+    </nav>
+
+    <section class="py-12 px-6 max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <span class="text-5xl block mb-4 animate-float">💬</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-coffee">KAPI Trò Chuyện</h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-xl mx-auto">Ba mẹ có thắc mắc gì về sản phẩm, đặt hàng hay giáo dục xanh? KAPI luôn sẵn lòng lắng nghe!</p>
+        </div>
+
+        <div class="grid lg:grid-cols-5 gap-8">
+            <div class="lg:col-span-3 bg-white rounded-3xl shadow-lg border border-coffee/10 overflow-hidden flex flex-col h-[600px]">
+                <div class="bg-leaf text-white px-6 py-4 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-lg">🌱</div>
+                    <div>
+                        <p class="font-bold">KAPI Bot</p>
+                        <p class="text-xs text-white/70">Online • Thường trả lời trong 1-2 phút</p>
+                    </div>
+                    <span class="ml-auto w-3 h-3 bg-green-300 rounded-full animate-pulse"></span>
+                </div>
+
+                <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50/50">
+                    <div class="flex items-start gap-3 chat-msg">
+                        <div class="w-8 h-8 bg-leaf rounded-full flex items-center justify-center text-white text-sm flex-shrink-0">🌱</div>
+                        <div class="bg-white rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm max-w-[80%]">
+                            <p class="text-sm">Chào ba mẹ! 🌟 Em là KAPI Bot — trợ lý tư vấn thân thiện.</p>
+                            <p class="text-sm mt-1">Ba mẹ muốn hỏi gì về sản phẩm, đặt hàng hay các hoạt động xanh của KAPI? Em trả lời ngay ạ!</p>
+                            <div class="flex gap-2 mt-3 flex-wrap">
+                                <button onclick="quickReply('Sản phẩm nào bán chạy nhất?')" class="text-xs bg-leaf/10 text-leaf px-3 py-1.5 rounded-full hover:bg-leaf/20 transition font-medium">🔥 Bán chạy?</button>
+                                <button onclick="quickReply('Giao hàng thế nào?')" class="text-xs bg-leaf/10 text-leaf px-3 py-1.5 rounded-full hover:bg-leaf/20 transition font-medium">🚚 Giao hàng</button>
+                                <button onclick="quickReply('Chất liệu có an toàn không?')" class="text-xs bg-leaf/10 text-leaf px-3 py-1.5 rounded-full hover:bg-leaf/20 transition font-medium">🛡️ An toàn</button>
+                                <button onclick="quickReply('Có combo không?')" class="text-xs bg-leaf/10 text-leaf px-3 py-1.5 rounded-full hover:bg-leaf/20 transition font-medium">🎁 Combo</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-coffee/10 p-4 bg-white">
+                    <form id="chat-form" class="flex gap-2">
+                        <input type="text" id="chat-input" placeholder="Nhập câu hỏi của ba mẹ..." class="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-leaf bg-cream/30 text-sm" autocomplete="off">
+                        <button type="submit" class="bg-leaf text-white px-5 py-2.5 rounded-xl font-bold hover:brightness-110 transition">Gửi ➤</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white rounded-2xl p-6 border border-coffee/10 reveal">
+                    <h3 class="font-bold text-coffee flex items-center gap-2 mb-4">📞 Liên hệ trực tiếp</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-center gap-3 text-gray-600 p-3 bg-cream rounded-xl">
+                            <span class="text-xl">📱</span>
+                            <div><p class="font-semibold text-coffee">Hotline</p><p>0912 345 678</p></div>
+                        </div>
+                        <div class="flex items-center gap-3 text-gray-600 p-3 bg-cream rounded-xl">
+                            <span class="text-xl">📧</span>
+                            <div><p class="font-semibold text-coffee">Email</p><p>hello@kapiproject.com</p></div>
+                        </div>
+                        <div class="flex items-center gap-3 text-gray-600 p-3 bg-cream rounded-xl">
+                            <span class="text-xl">💚</span>
+                            <div><p class="font-semibold text-coffee">Zalo / Facebook</p><p>@kapiproject</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-coffee/10 reveal">
+                    <h3 class="font-bold text-coffee flex items-center gap-2 mb-4">🕐 Giờ làm việc</h3>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div class="flex justify-between"><span>Thứ 2 - Thứ 6</span><span class="font-semibold text-coffee">8:00 - 18:00</span></div>
+                        <div class="flex justify-between"><span>Thứ 7</span><span class="font-semibold text-coffee">8:00 - 12:00</span></div>
+                        <div class="flex justify-between"><span>Chủ nhật</span><span class="font-semibold text-leaf">Nghỉ (chat bot 24/7)</span></div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-leaf to-leaf-dark text-white rounded-2xl p-6 reveal">
+                    <span class="text-3xl block mb-2">🌿</span>
+                    <h3 class="font-bold text-lg mb-2">Ba mẹ muốn đặt hàng?</h3>
+                    <p class="text-sm text-white/80 mb-4">Xem sản phẩm và đặt hàng trực tiếp tại trang đặt hàng của KAPI.</p>
+                    <a href="dat-hang.html" class="inline-block bg-white text-leaf px-5 py-2.5 rounded-full font-bold text-sm hover:brightness-110 transition shadow-lg">
+                        🛍️ Đặt hàng ngay
+                    </a>
+                </div>
+
+                <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 border border-amber-200/50 reveal">
+                    <span class="text-3xl block mb-2">☕</span>
+                    <h3 class="font-bold text-coffee text-lg mb-2">Chưa đọc câu chuyện?</h3>
+                    <p class="text-sm text-gray-600 mb-4">Tìm hiểu hành trình từ hạt cà phê đến ghim cài áo KAPI.</p>
+                    <a href="cau-chuyen-hat-ca-phe.html" class="inline-block bg-coffee text-white px-5 py-2.5 rounded-full font-bold text-sm hover:brightness-110 transition shadow-lg">
+                        📖 Đọc ngay
+                    </a>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200/50 reveal">
+                    <span class="text-3xl block mb-2">🌍</span>
+                    <h3 class="font-bold text-coffee text-lg mb-2">Thử thách xanh</h3>
+                    <p class="text-sm text-gray-600 mb-4">Tham gia hành động xanh mỗi ngày cùng KAPI và bé yêu.</p>
+                    <a href="hanh-dong-xanh.html" class="inline-block bg-leaf text-white px-5 py-2.5 rounded-full font-bold text-sm hover:brightness-110 transition shadow-lg">
+                        🌱 Khám phá
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 px-6 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-coffee text-center mb-10 reveal">📚 Kiến thức xanh cho ba mẹ</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-cream rounded-2xl p-5 border border-coffee/10 hover:shadow-md transition reveal">
+                    <span class="text-3xl block mb-3">🧸</span>
+                    <h4 class="font-bold text-coffee mb-2">Dạy bé về tái chế</h4>
+                    <p class="text-sm text-gray-600">5 cách đơn giản để giải thích cho bé hiểu về tái chế qua trò chơi hàng ngày.</p>
+                </div>
+                <div class="bg-cream rounded-2xl p-5 border border-coffee/10 hover:shadow-md transition reveal">
+                    <span class="text-3xl block mb-3">🌍</span>
+                    <h4 class="font-bold text-coffee mb-2">Hành tinh của chúng ta</h4>
+                    <p class="text-sm text-gray-600">Những con số biết nói về rác thải và cách mỗi gia đình có thể góp phần giảm thiểu.</p>
+                </div>
+                <div class="bg-cream rounded-2xl p-5 border border-coffee/10 hover:shadow-md transition reveal">
+                    <span class="text-3xl block mb-3">☕</span>
+                    <h4 class="font-bold text-coffee mb-2">Bã cà phê và bạn</h4>
+                    <p class="text-sm text-gray-600">Ngoài làm ghim, bã cà phê còn có thể dùng làm phân bón, khử mùi, tẩy tế bào chết.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-coffee text-cream/70 py-10 px-6">
+        <div class="max-w-4xl mx-auto text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-sm font-semibold">
+                <a href="mystory.html" class="text-cream hover:text-white transition">Trang chủ</a>
+                <a href="cau-chuyen-hat-ca-phe.html" class="text-cream/60 hover:text-cream transition">Câu chuyện</a>
+                <a href="dat-hang.html" class="text-cream/60 hover:text-cream transition">Đặt hàng</a>
+                <a href="hanh-dong-xanh.html" class="text-cream/60 hover:text-cream transition">Hành động xanh</a>
+            </div>
+            <p class="text-sm text-cream/50">🌱 KAPI PROJECT — Từ bã cà phê xanh, cho cuộc sống an lành</p>
+        </div>
+    </footer>
+
+    <script>
+        const botResponses = [
+            { keywords: ['bán chạy', 'best', 'nổi bật', 'hot'], reply: '🔥 Sản phẩm bán chạy nhất của KAPI là <b>Bé Hạt Vui Vẻ</b> (45.000₫) — hình linh vật KAPI ngộ nghĩnh được các bé rất yêu thích! Combo 3 mẫu (99.000₫) cũng được nhiều ba mẹ chọn mua để bé có bộ sưu tập đầy đủ.' },
+            { keywords: ['giao hàng', 'vận chuyển', 'ship', 'bao lâu'], reply: '🚚 KAPI giao hàng toàn quốc! Nội thành: 2-3 ngày, tỉnh xa: 5-7 ngày. <b>Miễn phí giao hàng</b> cho đơn trên 100.000₫. Có cod (thanh toán khi nhận hàng) ba mẹ nhé!' },
+            { keywords: ['an toàn', 'chất liệu', 'nguyên liệu', 'độc hại', 'làn da'], reply: '🛡️ Sản phẩm KAPI làm từ <b>bã cà phê + tinh bột ngô</b>, 100% tự phân hủy sinh học. Không hóa chất, không BPA, bo góc mài nhẵn, an toàn tuyệt đối cho làn da nhạy cảm của bé.' },
+            { keywords: ['combo', 'bộ', '3 mẫu', 'tiết kiệm'], reply: '🎁 <b>Combo 3 mẫu</b> (Mầm Xanh + Bé Hạt + Hành Tinh) chỉ <b>99.000₫</b> — tiết kiệm 21.000₫ so với mua lẻ! Tặng kèm thẻ bài "Hành trình hạt cà phê" miễn phí.' },
+            { keywords: ['giá', 'bao nhiêu', 'tiền', 'đắt'], reply: '💰 Các mức giá:<br>🌱 Mầm Xanh: 35.000₫<br>🧸 Bé Hạt: 45.000₫<br>🌍 Hành Tinh: 40.000₫<br>🎁 Combo 3: 99.000₫<br>Miễn phí giao hàng đơn trên 100.000₫!' },
+            { keywords: ['thanh toán', 'trả tiền', 'cod', 'chuyển khoản'], reply: '💳 KAPI nhận <b>thanh toán khi nhận hàng (COD)</b> và <b>chuyển khoản ngân hàng</b>. Với COD, ba mẹ chỉ cần trả tiền khi nhận được hàng và kiểm tra sản phẩm.' },
+            { keywords: ['bảo quản', 'giặt', 'vệ sinh', 'sạch'], reply: '🧼 Ghim KAPI có thể lau nhẹ bằng khăn ẩm. Tránh ngâm nước lâu. Để nơi khô ráo, tránh ánh nắng trực tiếp. Sản phẩm tự phân hủy nếu bỏ vào đất ẩm — hãy cùng bé thử nghiệm!' },
+            { keywords: ['quà tặng', 'tặng', 'sinh nhật', 'quà'], reply: '🎀 Ghim KAPI là món <b>quà tặng ý nghĩa</b> cho bé nhân dịp sinh nhật, khai giảng, hay ngày lễ. Kèm thiệp và đóng hộp quà xinh xắn. Liên hệ KAPI để được tư vấn quà tặng riêng!' },
+        ];
+        const fallback = 'Cảm ơn ba mẹ đã quan tâm! 🌱 Hiện em chưa có câu trả lời chính xác cho câu hỏi này. Ba mẹ có thể gọi <b>0912 345 678</b> hoặc email <b>hello@kapiproject.com</b> để được tư vấn chi tiết hơn ạ!';
+
+        const chatMessages = document.getElementById('chat-messages');
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+
+        function addMessage(text, isUser = false) {
+            const div = document.createElement('div');
+            div.className = `flex items-start gap-3 chat-msg ${isUser ? 'flex-row-reverse' : ''}`;
+            const avatar = isUser
+                ? '<div class="w-8 h-8 bg-coffee rounded-full flex items-center justify-center text-white text-sm flex-shrink-0">👤</div>'
+                : '<div class="w-8 h-8 bg-leaf rounded-full flex items-center justify-center text-white text-sm flex-shrink-0">🌱</div>';
+            div.innerHTML = `${avatar}<div class="${isUser ? 'bg-leaf text-white rounded-2xl rounded-tr-sm' : 'bg-white rounded-2xl rounded-tl-sm'} px-4 py-3 shadow-sm max-w-[80%]"><p class="text-sm ${isUser ? 'text-white' : ''}">${text}</p></div>`;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTyping() {
+            const div = document.createElement('div');
+            div.id = 'typing-indicator';
+            div.className = 'flex items-start gap-3 chat-msg';
+            div.innerHTML = `<div class="w-8 h-8 bg-leaf rounded-full flex items-center justify-center text-white text-sm flex-shrink-0">🌱</div>
+                <div class="bg-white rounded-2xl rounded-tl-sm px-5 py-3 shadow-sm flex gap-1">
+                    <span class="typing-dot w-2 h-2 bg-leaf/50 rounded-full inline-block"></span>
+                    <span class="typing-dot w-2 h-2 bg-leaf/50 rounded-full inline-block"></span>
+                    <span class="typing-dot w-2 h-2 bg-leaf/50 rounded-full inline-block"></span>
+                </div>`;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeTyping() {
+            const el = document.getElementById('typing-indicator');
+            if (el) el.remove();
+        }
+
+        function getBotReply(message) {
+            const msg = message.toLowerCase();
+            for (const item of botResponses) {
+                if (item.keywords.some(k => msg.includes(k))) return item.reply;
+            }
+            return fallback;
+        }
+
+        function quickReply(text) {
+            chatInput.value = text;
+            chatForm.dispatchEvent(new Event('submit'));
+        }
+
+        chatForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const msg = chatInput.value.trim();
+            if (!msg) return;
+            addMessage(msg, true);
+            chatInput.value = '';
+            showTyping();
+            setTimeout(() => {
+                removeTyping();
+                addMessage(getBotReply(msg));
+            }, 800 + Math.random() * 700);
+        });
+
+        function reveal() {
+            document.querySelectorAll('.reveal').forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 60) el.classList.add('active');
+            });
+        }
+        window.addEventListener('scroll', reveal);
+        window.addEventListener('load', reveal);
+    </script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt hàng - KAPI Project</title>
+    <meta name="description" content="Đặt ghim cài áo sinh học KAPI — sản phẩm tái chế từ bã cà phê, an toàn cho bé và thân thiện môi trường.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { quicksand: ['Quicksand', 'sans-serif'] },
+                    colors: { coffee: '#5C4033', cream: '#F5F2E9', leaf: '#4A7C59', 'leaf-light': '#E8F0E8', 'leaf-dark': '#3A6349' }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Quicksand', sans-serif; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeInUp 0.5s ease forwards; }
+        .toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 999; padding: 1rem 1.5rem; border-radius: 1rem; background: #4A7C59; color: white; font-weight: 600; transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); box-shadow: 0 10px 30px rgba(74,124,89,0.3); }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { opacity: 1; }
+    </style>
+</head>
+<body class="bg-cream text-gray-800 antialiased selection:bg-leaf selection:text-white quicksand">
+    <div id="toast" class="toast"></div>
+
+    <nav class="sticky top-0 z-40 bg-cream/90 backdrop-blur-xl border-b border-coffee/10 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="mystory.html" class="flex items-center space-x-2 text-2xl font-extrabold text-coffee">
+                <span>🌱</span><span>KAPI</span>
+            </a>
+            <div class="hidden md:flex space-x-6 font-semibold text-coffee/80">
+                <a href="cau-chuyen-hat-ca-phe.html" class="hover:text-leaf transition">Câu chuyện</a>
+                <a href="dat-hang.html" class="text-leaf font-bold">Đặt hàng</a>
+                <a href="tu-van.html" class="hover:text-leaf transition">Tư vấn</a>
+                <a href="hanh-dong-xanh.html" class="hover:text-leaf transition">Hành động xanh</a>
+            </div>
+            <a href="mystory.html" class="bg-leaf text-white px-5 py-2 rounded-full font-bold hover:brightness-110 transition text-sm">← Về trang chủ</a>
+        </div>
+    </nav>
+
+    <section class="py-12 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-4xl block mb-4">🛍️</span>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-coffee">Đặt hàng</h1>
+                <p class="text-gray-600 mt-3 text-lg max-w-xl mx-auto">Chọn sản phẩm yêu thích và điền thông tin, KAPI sẽ giao tận nơi cho bé yêu của ba mẹ.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 space-y-6">
+                    <h2 class="text-2xl font-bold text-coffee flex items-center gap-2">📦 Chọn sản phẩm</h2>
+
+                    <div class="bg-white rounded-2xl p-6 border border-coffee/10 fade-in">
+                        <div class="flex flex-col sm:flex-row gap-6">
+                            <div class="w-full sm:w-32 h-32 bg-gradient-to-br from-leaf-light to-emerald-100 rounded-2xl flex items-center justify-center text-5xl flex-shrink-0">🌱</div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-coffee">Mầm Xanh Thức Giấc</h3>
+                                        <p class="text-sm text-gray-500">Biểu tượng mầm sống vươn lên</p>
+                                    </div>
+                                    <span class="text-lg font-bold text-leaf">35.000₫</span>
+                                </div>
+                                <div class="flex items-center gap-4 mt-4">
+                                    <div class="flex items-center border border-gray-200 rounded-full overflow-hidden">
+                                        <button onclick="changeQty('qty1', -1, 35000)" class="w-8 h-8 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition font-bold">−</button>
+                                        <input id="qty1" type="number" value="0" min="0" max="99" class="w-12 text-center font-bold text-sm border-x border-gray-200 py-1" onchange="updateTotal()">
+                                        <button onclick="changeQty('qty1', 1, 35000)" class="w-8 h-8 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition font-bold">+</button>
+                                    </div>
+                                    <span class="text-sm text-gray-500" id="sub1">0₫</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-6 border-2 border-leaf fade-in">
+                        <div class="flex flex-col sm:flex-row gap-6">
+                            <div class="w-full sm:w-32 h-32 bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl flex items-center justify-center text-5xl flex-shrink-0 relative">🧸
+                                <span class="absolute -top-2 -right-2 bg-amber-400 text-white text-xs font-bold px-2 py-0.5 rounded-full">🌟</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-coffee">Bé Hạt Vui Vẻ <span class="text-amber-500 text-sm">Best Seller</span></h3>
+                                        <p class="text-sm text-gray-500">Linh vật KAPI ngộ nghĩnh</p>
+                                    </div>
+                                    <span class="text-lg font-bold text-leaf">45.000₫</span>
+                                </div>
+                                <div class="flex items-center gap-4 mt-4">
+                                    <div class="flex items-center border border-gray-200 rounded-full overflow-hidden">
+                                        <button onclick="changeQty('qty2', -1, 45000)" class="w-8 h-8 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition font-bold">−</button>
+                                        <input id="qty2" type="number" value="0" min="0" max="99" class="w-12 text-center font-bold text-sm border-x border-gray-200 py-1" onchange="updateTotal()">
+                                        <button onclick="changeQty('qty2', 1, 45000)" class="w-8 h-8 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition font-bold">+</button>
+                                    </div>
+                                    <span class="text-sm text-gray-500" id="sub2">0₫</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-6 border border-coffee/10 fade-in">
+                        <div class="flex flex-col sm:flex-row gap-6">
+                            <div class="w-full sm:w-32 h-32 bg-gradient-to-br from-blue-50 to-sky-100 rounded-2xl flex items-center justify-center text-5xl flex-shrink-0">🌍</div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-coffee">Hành Tinh Ôm Ấp</h3>
+                                        <p class="text-sm text-gray-500">Tình yêu dành cho Trái Đất</p>
+                                    </div>
+                                    <span class="text-lg font-bold text-leaf">40.000₫</span>
+                                </div>
+                                <div class="flex items-center gap-4 mt-4">
+                                    <div class="flex items-center border border-gray-200 rounded-full overflow-hidden">
+                                        <button onclick="changeQty('qty3', -1, 40000)" class="w-8 h-8 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition font-bold">−</button>
+                                        <input id="qty3" type="number" value="0" min="0" max="99" class="w-12 text-center font-bold text-sm border-x border-gray-200 py-1" onchange="updateTotal()">
+                                        <button onclick="changeQty('qty3', 1, 40000)" class="w-8 h-8 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition font-bold">+</button>
+                                    </div>
+                                    <span class="text-sm text-gray-500" id="sub3">0₫</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-6 border border-coffee/10 fade-in">
+                        <div class="flex flex-col sm:flex-row gap-6">
+                            <div class="w-full sm:w-32 h-32 bg-gradient-to-br from-purple-50 to-pink-100 rounded-2xl flex items-center justify-center text-5xl flex-shrink-0">🌸</div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-coffee">Combo 3 mẫu (Tiết kiệm)</h3>
+                                        <p class="text-sm text-gray-500">Trọn bộ Mầm Xanh + Bé Hạt + Hành Tinh</p>
+                                    </div>
+                                    <span class="text-lg font-bold text-amber-600">99.000₫</span>
+                                </div>
+                                <div class="flex items-center gap-4 mt-4">
+                                    <div class="flex items-center border border-gray-200 rounded-full overflow-hidden">
+                                        <button onclick="changeQty('qty4', -1, 99000)" class="w-8 h-8 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition font-bold">−</button>
+                                        <input id="qty4" type="number" value="0" min="0" max="99" class="w-12 text-center font-bold text-sm border-x border-gray-200 py-1" onchange="updateTotal()">
+                                        <button onclick="changeQty('qty4', 1, 99000)" class="w-8 h-8 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition font-bold">+</button>
+                                    </div>
+                                    <span class="text-sm text-gray-500" id="sub4">0₫</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-2xl p-6 border border-coffee/10 shadow-lg sticky top-28">
+                        <h2 class="text-xl font-bold text-coffee mb-6">📋 Thông tin giao hàng</h2>
+                        <form id="order-form" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-coffee mb-1">Họ tên ba/mẹ</label>
+                                <input type="text" id="order-name" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-leaf bg-cream/30 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-coffee mb-1">Số điện thoại</label>
+                                <input type="tel" id="order-phone" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-leaf bg-cream/30 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-coffee mb-1">Email</label>
+                                <input type="email" id="order-email" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-leaf bg-cream/30 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-coffee mb-1">Địa chỉ</label>
+                                <textarea id="order-address" required rows="2" placeholder="Số nhà, đường, phường, quận, thành phố..." class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-leaf bg-cream/30 text-sm resize-none"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-coffee mb-1">Ghi chú</label>
+                                <textarea id="order-note" rows="2" placeholder="Màu sắc yêu thích, lời nhắn..." class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-leaf bg-cream/30 text-sm resize-none"></textarea>
+                            </div>
+
+                            <div class="border-t border-coffee/10 pt-4 mt-6">
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between"><span class="text-gray-500">Tạm tính:</span><span id="subtotal" class="font-semibold">0₫</span></div>
+                                    <div class="flex justify-between"><span class="text-gray-500">Phí vận chuyển:</span><span class="font-semibold">Miễn phí</span></div>
+                                    <div class="flex justify-between text-lg font-bold text-coffee border-t border-coffee/10 pt-2 mt-2">
+                                        <span>Tổng cộng:</span><span id="total">0₫</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full bg-leaf text-white py-3 rounded-xl font-bold text-lg hover:brightness-110 transition shadow-lg shadow-leaf/25 mt-4">
+                                🌱 Xác nhận đặt hàng
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 px-6 bg-leaf/5">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-2xl font-bold text-coffee mb-8 reveal">🌱 Khám phá thêm</h2>
+            <div class="grid sm:grid-cols-3 gap-6">
+                <a href="cau-chuyen-hat-ca-phe.html" class="bg-white rounded-2xl p-6 border border-coffee/10 hover:shadow-lg hover:-translate-y-1 transition-all reveal">
+                    <span class="text-4xl block mb-3">☕</span>
+                    <h3 class="font-bold text-coffee mb-2">Câu chuyện hạt cà phê</h3>
+                    <p class="text-sm text-gray-500">Hành trình kỳ diệu từ hạt cà phê đến ghim cài áo xinh xắn.</p>
+                </a>
+                <a href="tu-van.html" class="bg-white rounded-2xl p-6 border border-coffee/10 hover:shadow-lg hover:-translate-y-1 transition-all reveal">
+                    <span class="text-4xl block mb-3">💬</span>
+                    <h3 class="font-bold text-coffee mb-2">Tư vấn</h3>
+                    <p class="text-sm text-gray-500">Ba mẹ cần hỗ trợ? KAPI tư vấn miễn phí 24/7.</p>
+                </a>
+                <a href="hanh-dong-xanh.html" class="bg-white rounded-2xl p-6 border border-coffee/10 hover:shadow-lg hover:-translate-y-1 transition-all reveal">
+                    <span class="text-4xl block mb-3">🌍</span>
+                    <h3 class="font-bold text-coffee mb-2">Hành động xanh</h3>
+                    <p class="text-sm text-gray-500">Thử thách bảo vệ môi trường cho cả gia đình.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 px-6 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-coffee text-center mb-8">❓ Câu hỏi thường gặp</h2>
+            <div class="space-y-3 max-w-2xl mx-auto">
+                <details class="bg-cream rounded-xl p-4 cursor-pointer group">
+                    <summary class="font-semibold text-coffee list-none flex justify-between items-center">
+                        Giao hàng mất bao lâu?
+                        <span class="group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-sm text-gray-600 mt-2">2-5 ngày làm việc trong nội thành, 5-7 ngày với tỉnh xa. Miễn phí giao hàng cho đơn trên 100.000₫.</p>
+                </details>
+                <details class="bg-cream rounded-xl p-4 cursor-pointer group">
+                    <summary class="font-semibold text-coffee list-none flex justify-between items-center">
+                        Chất liệu có an toàn cho bé?
+                        <span class="group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-sm text-gray-600 mt-2">100% từ bã cà phê và tinh bột ngô — tự phân hủy sinh học, không hóa chất độc hại, bo góc mài nhẵn an toàn.</p>
+                </details>
+                <details class="bg-cream rounded-xl p-4 cursor-pointer group">
+                    <summary class="font-semibold text-coffee list-none flex justify-between items-center">
+                        Có thể đổi trả không?
+                        <span class="group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-sm text-gray-600 mt-2">Đổi trả miễn phí trong 7 ngày nếu sản phẩm lỗi do nhà sản xuất. Sản phẩm handmade có thể sai lệch nhẹ so với hình ảnh.</p>
+                </details>
+                <details class="bg-cream rounded-xl p-4 cursor-pointer group">
+                    <summary class="font-semibold text-coffee list-none flex justify-between items-center">
+                        Có thể mua sỉ hoặc đặt hàng cho trường học?
+                        <span class="group-open:rotate-180 transition">▼</span>
+                    </summary>
+                    <p class="text-sm text-gray-600 mt-2">Có! KAPI nhận đặt hàng theo lô cho trường mầm non, trung tâm giáo dục. Liên hệ hello@kapiproject.com để được báo giá tốt nhất.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-coffee text-cream/70 py-10 px-6">
+        <div class="max-w-4xl mx-auto text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-sm font-semibold">
+                <a href="mystory.html" class="text-cream hover:text-white transition">Trang chủ</a>
+                <a href="cau-chuyen-hat-ca-phe.html" class="text-cream/60 hover:text-cream transition">Câu chuyện</a>
+                <a href="tu-van.html" class="text-cream/60 hover:text-cream transition">Tư vấn</a>
+                <a href="hanh-dong-xanh.html" class="text-cream/60 hover:text-cream transition">Hành động xanh</a>
+            </div>
+            <p class="text-sm text-cream/50">🌱 KAPI PROJECT — Từ bã cà phê xanh, cho cuộc sống an lành</p>
+        </div>
+    </footer>
+
+    <script>
+        const prices = [35000, 45000, 40000, 99000];
+
+        function changeQty(id, delta, price) {
+            const input = document.getElementById(id);
+            let val = parseInt(input.value || 0) + delta;
+            if (val < 0) val = 0;
+            if (val > 99) val = 99;
+            input.value = val;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let subtotal = 0;
+            ['qty1','qty2','qty3','qty4'].forEach((id, i) => {
+                const qty = parseInt(document.getElementById(id).value || 0);
+                const sub = qty * prices[i];
+                document.getElementById('sub' + (i+1)).textContent = sub > 0 ? sub.toLocaleString() + '₫' : '0₫';
+                subtotal += sub;
+            });
+            document.getElementById('subtotal').textContent = subtotal.toLocaleString() + '₫';
+            document.getElementById('total').textContent = subtotal.toLocaleString() + '₫';
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(t._timeout);
+            t._timeout = setTimeout(() => t.classList.remove('show'), 4000);
+        }
+
+        document.getElementById('order-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const total = document.getElementById('total').textContent;
+            if (total === '0₫') { showToast('⚠️ Vui lòng chọn ít nhất 1 sản phẩm!'); return; }
+            const name = document.getElementById('order-name').value;
+            const phone = document.getElementById('order-phone').value;
+            const email = document.getElementById('order-email').value;
+            const address = document.getElementById('order-address').value;
+            const note = document.getElementById('order-note').value || '(không có)';
+
+            const items = [];
+            ['qty1','qty2','qty3','qty4'].forEach((id, i) => {
+                const qty = parseInt(document.getElementById(id).value || 0);
+                if (qty > 0) items.push({ product: ['Mầm Xanh Thức Giấc','Bé Hạt Vui Vẻ','Hành Tinh Ôm Ấp','Combo 3 mẫu'][i], qty, price: prices[i] });
+            });
+
+            const order = { name, phone, email, address, note, items, total, date: new Date().toISOString() };
+            const orders = JSON.parse(localStorage.getItem('kapi_orders') || '[]');
+            orders.push(order);
+            localStorage.setItem('kapi_orders', JSON.stringify(orders));
+
+            showToast(`✅ Đặt hàng thành công! KAPI sẽ gọi ${phone} xác nhận đơn hàng sớm nhất. Cảm ơn ${name}! 🌱`);
+            this.reset();
+            ['qty1','qty2','qty3','qty4'].forEach(id => document.getElementById(id).value = 0);
+            updateTotal();
+        });
+    </script>
+</body>
+</html>

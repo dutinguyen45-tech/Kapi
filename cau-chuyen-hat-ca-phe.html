@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Câu chuyện hạt cà phê - KAPI Project</title>
+    <meta name="description" content="Từ hạt cà phê trên cao nguyên, qua tách cà phê buổi sáng, đến chiếc ghim sinh học trên ngực áo bé — một hành trình đầy ý nghĩa.">
+    <meta property="og:title" content="Câu chuyện hạt cà phê - KAPI">
+    <meta property="og:description" content="Hành trình kỳ diệu từ hạt cà phê đến ghim cài áo xanh.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { quicksand: ['Quicksand', 'sans-serif'] },
+                    colors: { coffee: '#5C4033', cream: '#F5F2E9', leaf: '#4A7C59', 'leaf-light': '#E8F0E8' },
+                    animation: { 'float': 'float 6s ease-in-out infinite' },
+                    keyframes: { float: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-20px)' } } }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Quicksand', sans-serif; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-60px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeInRight { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: translateX(0); } }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+        .reveal-left.active { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(40px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+        .reveal-right.active { opacity: 1; transform: translateX(0); }
+        .timeline-dot { transition: all 0.3s; }
+        .timeline-dot:hover { transform: scale(1.3); }
+    </style>
+</head>
+<body class="bg-cream text-gray-800 antialiased selection:bg-leaf selection:text-white quicksand">
+
+    <nav class="sticky top-0 z-40 bg-cream/90 backdrop-blur-xl border-b border-coffee/10 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="mystory.html" class="flex items-center space-x-2 text-2xl font-extrabold text-coffee">
+                <span>🌱</span><span>KAPI</span>
+            </a>
+            <div class="hidden md:flex space-x-6 font-semibold text-coffee/80">
+                <a href="cau-chuyen-hat-ca-phe.html" class="text-leaf font-bold">Câu chuyện</a>
+                <a href="dat-hang.html" class="hover:text-leaf transition">Đặt hàng</a>
+                <a href="tu-van.html" class="hover:text-leaf transition">Tư vấn</a>
+                <a href="hanh-dong-xanh.html" class="hover:text-leaf transition">Hành động xanh</a>
+            </div>
+            <a href="mystory.html" class="bg-leaf text-white px-5 py-2 rounded-full font-bold hover:brightness-110 transition text-sm">← Về trang chủ</a>
+        </div>
+    </nav>
+
+    <section class="relative min-h-[60vh] flex items-center justify-center px-6 overflow-hidden bg-gradient-to-b from-leaf-light/40 to-cream">
+        <div class="absolute top-10 left-10 w-64 h-64 bg-leaf/10 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-10 right-10 w-80 h-80 bg-coffee/10 rounded-full blur-3xl animate-pulse"></div>
+        <div class="text-center max-w-3xl mx-auto relative z-10">
+            <span class="text-7xl block mb-6 animate-float">☕</span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-coffee leading-tight">
+                Câu Chuyện <span class="text-leaf">Hạt Cà Phê</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 mt-6 max-w-2xl mx-auto leading-relaxed">
+                Từ những quả cà phê đỏ mọng trên cao nguyên, qua bàn tay người nông dân, đến tách cà phê thơm nồng mỗi sáng — và rồi... một cuộc đời mới bắt đầu.
+            </p>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 bg-white">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold text-coffee mb-4">🌍 Hành Trình Của Hạt Cà Phê</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Mỗi hạt cà phê trải qua một cuộc phiêu lưu kỳ thú trước khi đến tay bạn. Và câu chuyện chưa dừng lại ở đó...</p>
+            </div>
+
+            <div class="relative">
+                <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-leaf/40 via-coffee/30 to-leaf/40 -translate-x-1/2 hidden md:block"></div>
+
+                <div class="space-y-16">
+                    <div class="relative flex flex-col md:flex-row items-center gap-8 md:gap-12 reveal-left">
+                        <div class="md:w-1/2 text-center md:text-right">
+                            <span class="text-5xl block mb-4">🌱</span>
+                            <h3 class="text-2xl font-bold text-coffee">Gieo trồng</h3>
+                            <p class="text-gray-600 mt-2">Hạt cà phê được gieo trên những vùng cao nguyên đất đỏ bazan màu mỡ, nơi có khí hậu mát mẻ quanh năm. Từ một mầm cây nhỏ bé, cây cà phê mất 3-4 năm để trưởng thành và cho những quả chín đầu tiên.</p>
+                        </div>
+                        <div class="md:w-1/2 flex justify-center md:justify-start">
+                            <span class="w-12 h-12 bg-leaf text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg z-10 timeline-dot">1</span>
+                        </div>
+                    </div>
+
+                    <div class="relative flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 reveal-right">
+                        <div class="md:w-1/2 text-center md:text-left">
+                            <span class="text-5xl block mb-4">🌤️</span>
+                            <h3 class="text-2xl font-bold text-coffee">Thu hoạch & phơi sấy</h3>
+                            <p class="text-gray-600 mt-2">Khi quả chín đỏ mọng, người nông dân tỉ mẩn hái từng chùm bằng tay. Quả cà phê được phơi dưới ánh mặt trời cao nguyên trong nhiều ngày, đảo đều tay để hạt khô đều, thơm dậy mùi đất trời.</p>
+                        </div>
+                        <div class="md:w-1/2 flex justify-center md:justify-end">
+                            <span class="w-12 h-12 bg-amber-600 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg z-10 timeline-dot">2</span>
+                        </div>
+                    </div>
+
+                    <div class="relative flex flex-col md:flex-row items-center gap-8 md:gap-12 reveal-left">
+                        <div class="md:w-1/2 text-center md:text-right">
+                            <span class="text-5xl block mb-4">🔥</span>
+                            <h3 class="text-2xl font-bold text-coffee">Rang xay</h3>
+                            <p class="text-gray-600 mt-2">Hạt cà phê thô được rang ở nhiệt độ trên 200°C, tạo nên hương thơm đặc trưng. Quá trình rang là cả một nghệ thuật — rang lâu quá sẽ đắng, rang non quá sẽ chua. Sau đó hạt được xay nhuyễn, sẵn sàng pha chế.</p>
+                        </div>
+                        <div class="md:w-1/2 flex justify-center md:justify-start">
+                            <span class="w-12 h-12 bg-coffee text-cream rounded-full flex items-center justify-center font-bold text-xl shadow-lg z-10 timeline-dot">3</span>
+                        </div>
+                    </div>
+
+                    <div class="relative flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 reveal-right">
+                        <div class="md:w-1/2 text-center md:text-left">
+                            <span class="text-5xl block mb-4">☕</span>
+                            <h3 class="text-2xl font-bold text-coffee">Phê (và bã)</h3>
+                            <p class="text-gray-600 mt-2">Qua tay người pha chế, hạt cà phê trở thành thức uống quen thuộc mỗi sáng. Nhưng sau khi pha, phần bã cà phê — tưởng chừng như bỏ đi — lại chính là kho báu mà KAPI đang tìm kiếm.</p>
+                        </div>
+                        <div class="md:w-1/2 flex justify-center md:justify-end">
+                            <span class="w-12 h-12 bg-amber-700 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg z-10 timeline-dot">4</span>
+                        </div>
+                    </div>
+
+                    <div class="relative flex flex-col md:flex-row items-center gap-8 md:gap-12 reveal-left">
+                        <div class="md:w-1/2 text-center md:text-right">
+                            <span class="text-5xl block mb-4">♻️</span>
+                            <h3 class="text-2xl font-bold text-leaf">Tái sinh cùng KAPI</h3>
+                            <p class="text-gray-600 mt-2">Bã cà phê được KAPI thu gom, xử lý khô, kết hợp với tinh bột ngô tạo thành vật liệu sinh học. Qua bàn tay khéo léo, chúng trở thành những chiếc ghim cài áo xinh xắn — mang một sứ mệnh mới, gieo ý thức xanh cho thế hệ tương lai.</p>
+                        </div>
+                        <div class="md:w-1/2 flex justify-center md:justify-start">
+                            <span class="w-12 h-12 bg-leaf text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg z-10 timeline-dot">5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 bg-leaf/5">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl font-bold text-coffee text-center mb-12 reveal">🌿 Những con số biết nói</h2>
+            <div class="grid md:grid-cols-4 gap-6 text-center">
+                <div class="bg-white p-6 rounded-2xl shadow-sm reveal">
+                    <p class="text-3xl font-extrabold text-leaf">2.5</p>
+                    <p class="text-sm text-gray-600 mt-1">Triệu tấn cà phê Việt Nam/năm</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm reveal">
+                    <p class="text-3xl font-extrabold text-leaf">40%</p>
+                    <p class="text-sm text-gray-600 mt-1">Trọng lượng hạt thành bã thải</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm reveal">
+                    <p class="text-3xl font-extrabold text-leaf">20g</p>
+                    <p class="text-sm text-gray-600 mt-1">Bã cà phê/cốc — thành ghim</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm reveal">
+                    <p class="text-3xl font-extrabold text-leaf">100%</p>
+                    <p class="text-sm text-gray-600 mt-1">Tự phân hủy sinh học</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 bg-white">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-5xl block mb-6">📖</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-coffee mb-6">Bé đã sẵn sàng nghe chuyện?</h2>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto mb-8">
+                "Ngày xửa ngày xưa, ở một nông trại trên cao nguyên xanh mướt, có một hạt cà phê nhỏ tên là Cốm... Cốm luôn mơ ước được đi đây đi đó và khám phá thế giới."
+            </p>
+            <p class="text-gray-500 italic mb-8">Đón đọc bộ truyện tranh "Hành trình kỳ diệu của Bé Hạt KAPI" — hoàn toàn miễn phí!</p>
+            <a href="mystory.html#cta" class="inline-block bg-leaf text-white px-8 py-4 rounded-full font-bold text-lg hover:brightness-110 transition shadow-lg shadow-leaf/30">
+                🌱 Nhận truyện tranh miễn phí
+            </a>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 bg-gradient-to-br from-leaf/5 to-cream">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-coffee text-center mb-10 reveal">🌿 Tiếp theo là gì?</h2>
+            <div class="grid sm:grid-cols-3 gap-6">
+                <a href="dat-hang.html" class="bg-white rounded-2xl p-6 border border-coffee/10 text-center hover:shadow-lg hover:-translate-y-1 transition-all reveal">
+                    <span class="text-4xl block mb-3">🛍️</span>
+                    <h3 class="font-bold text-coffee mb-2">Mua ghim KAPI</h3>
+                    <p class="text-sm text-gray-500">Chọn mẫu ghim yêu thích và đặt hàng ngay cho bé yêu.</p>
+                </a>
+                <a href="hanh-dong-xanh.html" class="bg-white rounded-2xl p-6 border border-coffee/10 text-center hover:shadow-lg hover:-translate-y-1 transition-all reveal">
+                    <span class="text-4xl block mb-3">🌍</span>
+                    <h3 class="font-bold text-coffee mb-2">Hành động xanh</h3>
+                    <p class="text-sm text-gray-500">Tham gia thử thách bảo vệ môi trường cùng cả gia đình.</p>
+                </a>
+                <a href="tu-van.html" class="bg-white rounded-2xl p-6 border border-coffee/10 text-center hover:shadow-lg hover:-translate-y-1 transition-all reveal">
+                    <span class="text-4xl block mb-3">💬</span>
+                    <h3 class="font-bold text-coffee mb-2">Tư vấn</h3>
+                    <p class="text-sm text-gray-500">Ba mẹ cần hỏi gì về sản phẩm? KAPI tư vấn miễn phí.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-coffee text-cream/70 py-10 px-6">
+        <div class="max-w-4xl mx-auto text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-sm font-semibold">
+                <a href="mystory.html" class="text-cream hover:text-white transition">Trang chủ</a>
+                <a href="dat-hang.html" class="text-cream/60 hover:text-cream transition">Đặt hàng</a>
+                <a href="tu-van.html" class="text-cream/60 hover:text-cream transition">Tư vấn</a>
+                <a href="hanh-dong-xanh.html" class="text-cream/60 hover:text-cream transition">Hành động xanh</a>
+            </div>
+            <p class="text-sm text-cream/50">🌱 KAPI PROJECT — Từ bã cà phê xanh, cho cuộc sống an lành</p>
+        </div>
+    </footer>
+
+    <script>
+        function reveal() {
+            document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 80) el.classList.add('active');
+            });
+        }
+        window.addEventListener('scroll', reveal);
+        window.addEventListener('load', reveal);
+    </script>
+</body>
+</html>

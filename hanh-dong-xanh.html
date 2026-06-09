@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hành động xanh mỗi ngày - KAPI Project</title>
+    <meta name="description" content="Theo dõi hành động xanh mỗi ngày cùng KAPI — thử thách thân thiện môi trường cho cả gia đình.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { quicksand: ['Quicksand', 'sans-serif'] },
+                    colors: { coffee: '#5C4033', cream: '#F5F2E9', leaf: '#4A7C59', 'leaf-light': '#E8F0E8', 'leaf-dark': '#3A6349' },
+                    animation: { 'float': 'float 6s ease-in-out infinite', 'bounce-slow': 'bounce 3s infinite' },
+                    keyframes: { float: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-10px)' } } }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Quicksand', sans-serif; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes confetti-fall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100px) rotate(360deg); opacity: 0; } }
+        .fade-in { animation: fadeInUp 0.5s ease forwards; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16,1,0.3,1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .streak-flame { animation: float 2s ease-in-out infinite; }
+        .checkbox-custom:checked + label .check-icon { opacity: 1; transform: scale(1); }
+        .checkbox-custom:checked + label .check-bg { background: #4A7C59; border-color: #4A7C59; }
+        .progress-bar { transition: width 0.8s cubic-bezier(0.16,1,0.3,1); }
+    </style>
+</head>
+<body class="bg-cream text-gray-800 antialiased selection:bg-leaf selection:text-white quicksand">
+
+    <div id="celebration-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center" onclick="this.classList.add('hidden')">
+        <div class="bg-cream rounded-3xl p-8 max-w-sm mx-4 text-center shadow-2xl animate-bounce-slow" onclick="event.stopPropagation()">
+            <span class="text-6xl block mb-4">🎉</span>
+            <h3 class="text-2xl font-bold text-coffee mb-2">Xin chúc mừng!</h3>
+            <p class="text-gray-600 mb-6" id="celebration-text">Ba mẹ đã hoàn thành thử thách hôm nay!</p>
+            <button onclick="document.getElementById('celebration-overlay').classList.add('hidden')" class="bg-leaf text-white px-6 py-3 rounded-full font-bold">🌱 Tiếp tục</button>
+        </div>
+    </div>
+
+    <nav class="sticky top-0 z-40 bg-cream/90 backdrop-blur-xl border-b border-coffee/10 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="mystory.html" class="flex items-center space-x-2 text-2xl font-extrabold text-coffee">
+                <span>🌱</span><span>KAPI</span>
+            </a>
+            <div class="hidden md:flex space-x-6 font-semibold text-coffee/80">
+                <a href="cau-chuyen-hat-ca-phe.html" class="hover:text-leaf transition">Câu chuyện</a>
+                <a href="dat-hang.html" class="hover:text-leaf transition">Đặt hàng</a>
+                <a href="tu-van.html" class="hover:text-leaf transition">Tư vấn</a>
+                <a href="hanh-dong-xanh.html" class="text-leaf font-bold">Hành động xanh</a>
+            </div>
+            <a href="mystory.html" class="bg-leaf text-white px-5 py-2 rounded-full font-bold hover:brightness-110 transition text-sm">← Về trang chủ</a>
+        </div>
+    </nav>
+
+    <section class="py-12 px-6 max-w-6xl mx-auto">
+        <div class="text-center mb-12 reveal">
+            <span class="text-5xl block mb-4">🌿</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-coffee">Hành Động Xanh Mỗi Ngày</h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-2xl mx-auto">Mỗi ngày một hành động nhỏ — cùng bé yêu vun đắp thói quen bảo vệ hành tinh. Tick vào ô để hoàn thành thử thách và theo dõi chuỗi xanh của gia đình!</p>
+        </div>
+
+        <div class="grid lg:grid-cols-4 gap-8">
+            <div class="lg:col-span-3 space-y-8">
+                <div class="bg-white rounded-2xl p-6 border border-coffee/10 shadow-sm reveal">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-coffee flex items-center gap-2">📅 Hôm nay — <span id="current-date" class="text-leaf"></span></h2>
+                        <span id="today-progress-text" class="text-sm font-semibold text-leaf">0/5</span>
+                    </div>
+                    <div class="w-full h-3 bg-leaf-light rounded-full overflow-hidden mb-6">
+                        <div id="today-progress-bar" class="progress-bar h-full bg-leaf rounded-full" style="width:0%"></div>
+                    </div>
+
+                    <div id="daily-tasks" class="space-y-4"></div>
+
+                    <p class="text-xs text-gray-400 mt-6 text-center italic">🌱 "Hành động nhỏ hôm nay — thay đổi lớn cho ngày mai"</p>
+                </div>
+
+                <div class="reveal">
+                    <h2 class="text-xl font-bold text-coffee mb-4 flex items-center gap-2">🏆 Thử thách tuần này</h2>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-5 border border-amber-200/50">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-2xl">♻️</span>
+                                <span class="text-xs bg-amber-200 text-amber-800 px-2.5 py-1 rounded-full font-bold">+50 điểm</span>
+                            </div>
+                            <h4 class="font-bold text-coffee">Giảm rác thải nhựa</h4>
+                            <p class="text-xs text-gray-500 mt-1">Không dùng túi nilon & chai nhựa dùng 1 lần trong 7 ngày.</p>
+                            <div class="mt-3 w-full h-2 bg-amber-100 rounded-full">
+                                <div class="h-full bg-amber-400 rounded-full" style="width:0%"></div>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-5 border border-green-200/50">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-2xl">🚲</span>
+                                <span class="text-xs bg-green-200 text-green-800 px-2.5 py-1 rounded-full font-bold">+50 điểm</span>
+                            </div>
+                            <h4 class="font-bold text-coffee">Di chuyển xanh</h4>
+                            <p class="text-xs text-gray-500 mt-1">Đi bộ / xe đạp / xe buýt thay vì xe máy 3 lần/tuần.</p>
+                            <div class="mt-3 w-full h-2 bg-green-100 rounded-full">
+                                <div class="h-full bg-green-400 rounded-full" style="width:0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal">
+                    <h2 class="text-xl font-bold text-coffee mb-4 flex items-center gap-2">🌍 Tất cả thử thách</h2>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" id="all-challenges"></div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white rounded-2xl p-6 border border-coffee/10 shadow-sm text-center reveal">
+                    <span class="text-4xl block streak-flame">🔥</span>
+                    <p class="text-3xl font-extrabold text-coffee mt-2"><span id="streak-count">0</span></p>
+                    <p class="text-sm text-gray-500">ngày liên tiếp</p>
+                    <div class="mt-4 pt-4 border-t border-coffee/10">
+                        <p class="text-sm text-gray-600">Tổng điểm xanh: <span class="font-bold text-leaf" id="total-points">0</span></p>
+                        <p class="text-xs text-gray-400 mt-1">Hoàn thành thử thách để tích điểm</p>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-leaf to-leaf-dark text-white rounded-2xl p-6 reveal">
+                    <span class="text-3xl block mb-2">💡</span>
+                    <h3 class="font-bold text-lg mb-2">Mẹo xanh hôm nay</h3>
+                    <p id="daily-tip" class="text-sm text-white/90 leading-relaxed"></p>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-coffee/10 reveal">
+                    <h3 class="font-bold text-coffee mb-3">📊 Bảng xếp hạng</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center gap-2 p-2 rounded-lg bg-amber-50">
+                            <span class="w-6 text-center font-bold text-amber-500">🥇</span>
+                            <span class="flex-1 font-semibold">Gia đình Tuấn</span>
+                            <span class="text-leaf font-bold">1.250</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-2 rounded-lg bg-gray-50">
+                            <span class="w-6 text-center font-bold text-gray-400">🥈</span>
+                            <span class="flex-1 font-semibold">Mẹ Bông Xanh</span>
+                            <span class="text-leaf font-bold">980</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-2 rounded-lg bg-orange-50">
+                            <span class="w-6 text-center font-bold text-orange-400">🥉</span>
+                            <span class="flex-1 font-semibold">Nhà Cốm</span>
+                            <span class="text-leaf font-bold">720</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-2 rounded-lg bg-gray-50">
+                            <span class="w-6 text-center text-gray-400 font-bold">4</span>
+                            <span class="flex-1 font-semibold">Ba Mầm Cây</span>
+                            <span class="text-leaf font-bold">510</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-coffee/10 reveal">
+                    <h3 class="font-bold text-coffee mb-3 flex items-center gap-2">📅 Lịch xanh</h3>
+                    <div class="text-center">
+                        <div class="flex justify-between items-center mb-4">
+                            <button onclick="changeWeek(-1)" class="w-8 h-8 rounded-full bg-coffee/10 flex items-center justify-center hover:bg-coffee/20 transition">←</button>
+                            <span id="week-label" class="font-bold text-coffee"></span>
+                            <button onclick="changeWeek(1)" class="w-8 h-8 rounded-full bg-coffee/10 flex items-center justify-center hover:bg-coffee/20 transition">→</button>
+                        </div>
+                        <div id="week-grid" class="grid grid-cols-7 gap-1 text-xs"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 px-6 bg-leaf/5">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-2xl font-bold text-coffee mb-10 reveal">🌱 Cùng KAPI lan tỏa xanh</h2>
+            <div class="grid sm:grid-cols-3 gap-6">
+                <a href="cau-chuyen-hat-ca-phe.html" class="bg-white rounded-2xl p-6 border border-coffee/10 hover:shadow-lg hover:-translate-y-1 transition-all reveal">
+                    <span class="text-4xl block mb-3">☕</span>
+                    <h3 class="font-bold text-coffee mb-2">Câu chuyện hạt cà phê</h3>
+                    <p class="text-sm text-gray-500">Hành trình kỳ diệu từ hạt cà phê đến ghim cài áo.</p>
+                </a>
+                <a href="dat-hang.html" class="bg-white rounded-2xl p-6 border border-coffee/10 hover:shadow-lg hover:-translate-y-1 transition-all reveal">
+                    <span class="text-4xl block mb-3">🛍️</span>
+                    <h3 class="font-bold text-coffee mb-2">Mua sản phẩm</h3>
+                    <p class="text-sm text-gray-500">Đặt ghim sinh học KAPI cho bé yêu của ba mẹ.</p>
+                </a>
+                <a href="tu-van.html" class="bg-white rounded-2xl p-6 border border-coffee/10 hover:shadow-lg hover:-translate-y-1 transition-all reveal">
+                    <span class="text-4xl block mb-3">💬</span>
+                    <h3 class="font-bold text-coffee mb-2">Tư vấn</h3>
+                    <p class="text-sm text-gray-500">Giải đáp mọi thắc mắc về sản phẩm và đặt hàng.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 px-6 bg-white">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-4xl block mb-4">🏅</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-coffee mb-4">Thành tích đã đạt được</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                <div class="bg-cream rounded-2xl p-4 border border-coffee/10" id="badge-1">
+                    <span class="text-3xl block">🌱</span>
+                    <p class="text-xs font-semibold text-coffee mt-1">Xanh tập sự</p>
+                    <p class="text-xs text-gray-400">1 ngày</p>
+                </div>
+                <div class="bg-cream rounded-2xl p-4 border border-coffee/10" id="badge-2">
+                    <span class="text-3xl block">🌿</span>
+                    <p class="text-xs font-semibold text-coffee mt-1">Chồi non</p>
+                    <p class="text-xs text-gray-400">7 ngày</p>
+                </div>
+                <div class="bg-cream rounded-2xl p-4 border border-coffee/10" id="badge-3">
+                    <span class="text-3xl block">🌳</span>
+                    <p class="text-xs font-semibold text-coffee mt-1">Cây xanh</p>
+                    <p class="text-xs text-gray-400">30 ngày</p>
+                </div>
+                <div class="bg-cream rounded-2xl p-4 border border-coffee/10" id="badge-4">
+                    <span class="text-3xl block">🏆</span>
+                    <p class="text-xs font-semibold text-coffee mt-1">Chiến binh xanh</p>
+                    <p class="text-xs text-gray-400">100 ngày</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-coffee text-cream/70 py-10 px-6">
+        <div class="max-w-4xl mx-auto text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-sm font-semibold">
+                <a href="mystory.html" class="text-cream hover:text-white transition">Trang chủ</a>
+                <a href="cau-chuyen-hat-ca-phe.html" class="text-cream/60 hover:text-cream transition">Câu chuyện</a>
+                <a href="dat-hang.html" class="text-cream/60 hover:text-cream transition">Đặt hàng</a>
+                <a href="tu-van.html" class="text-cream/60 hover:text-cream transition">Tư vấn</a>
+            </div>
+            <p class="text-sm text-cream/50">🌱 KAPI PROJECT — Từ bã cà phê xanh, cho cuộc sống an lành</p>
+        </div>
+    </footer>
+
+    <script>
+        const dailyTasks = [
+            { id: 'task1', emoji: '♻️', text: 'Phân loại rác tại nhà cùng bé' },
+            { id: 'task2', emoji: '💡', text: 'Tắt điện khi không sử dụng' },
+            { id: 'task3', emoji: '🚰', text: 'Hạn chế nước rửa chén — dùng giấm tự nhiên' },
+            { id: 'task4', emoji: '🌱', text: 'Cùng bé tưới cây trong vườn / chậu cây' },
+            { id: 'task5', emoji: '📚', text: 'Đọc 1 câu chuyện về bảo vệ môi trường cho bé' },
+        ];
+
+        const allChallenges = [
+            { emoji: '🛍️', name: 'Mang túi vải đi chợ', pts: '+15', color: 'bg-leaf-light' },
+            { emoji: '🚲', name: 'Đi bộ/xe đạp 1km', pts: '+20', color: 'bg-blue-50' },
+            { emoji: '🥤', name: 'Không dùng ống hút nhựa', pts: '+10', color: 'bg-amber-50' },
+            { emoji: '🔋', name: 'Tắt thiết bị điện khi không dùng', pts: '+10', color: 'bg-red-50' },
+            { emoji: '🍂', name: 'Ủ phân hữu cơ từ rau củ', pts: '+25', color: 'bg-green-50' },
+            { emoji: '📖', name: 'Kể cho bé về tái chế', pts: '+15', color: 'bg-purple-50' },
+        ];
+
+        const dailyTips = [
+            'Một cốc cà phê tạo ra 20g bã thải — KAPI biến thành ghim xinh! ☕→🌱',
+            'Rác thải nhựa mất 450 năm để phân hủy — hãy cùng bé dùng đồ tái chế! 🌍',
+            'Mỗi tấn giấy tái chế cứu được 17 cây xanh — hãy phân loại giấy cùng bé! 📄',
+            'Tắt vòi nước khi đánh răng tiết kiệm 8 lít nước/phút! 💧',
+            'Bóng đèn LED tiết kiệm 80% điện năng so với bóng thường — hãy cùng bé thay đèn! 💡',
+            'Phân loại rác đúng cách giúp giảm 40% lượng rác ra bãi chôn lấp! ♻️',
+            'Một chai nhựa tái chế có thể tạo thành áo khoác fleece! 👕',
+        ];
+
+        let streak = parseInt(localStorage.getItem('kapi_streak') || '0');
+        let totalPoints = parseInt(localStorage.getItem('kapi_points') || '0');
+        let completedToday = JSON.parse(localStorage.getItem('kapi_completed_today') || '[]');
+        let weekOffset = 0;
+
+        function getDateStr(d = new Date()) {
+            return d.toISOString().split('T')[0];
+        }
+
+        const today = getDateStr();
+        const savedDate = localStorage.getItem('kapi_last_date');
+
+        if (savedDate !== today) {
+            if (savedDate) {
+                const last = new Date(savedDate);
+                const diff = Math.floor((new Date(today) - last) / (1000*60*60*24));
+                if (diff === 1) {
+                    streak++;
+                } else if (diff > 1) {
+                    streak = 0;
+                }
+            } else {
+                streak = 0;
+            }
+            completedToday = [];
+            localStorage.setItem('kapi_streak', streak);
+            localStorage.setItem('kapi_completed_today', JSON.stringify(completedToday));
+            localStorage.setItem('kapi_last_date', today);
+        }
+
+        function updateUI() {
+            document.getElementById('streak-count').textContent = streak;
+            document.getElementById('total-points').textContent = totalPoints;
+
+            const completed = completedToday.length;
+            const total = dailyTasks.length;
+            document.getElementById('today-progress-text').textContent = `${completed}/${total}`;
+            document.getElementById('today-progress-bar').style.width = `${(completed/total)*100}%`;
+
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('vi-VN', options);
+
+            const container = document.getElementById('daily-tasks');
+            container.innerHTML = dailyTasks.map(t => {
+                const done = completedToday.includes(t.id);
+                return `
+                    <div class="flex items-center gap-4 p-4 rounded-xl ${done ? 'bg-leaf-light/50' : 'bg-cream'} border ${done ? 'border-leaf/20' : 'border-coffee/10'} transition">
+                        <input type="checkbox" id="${t.id}" class="checkbox-custom hidden" ${done ? 'checked' : ''} onchange="toggleTask('${t.id}')">
+                        <label for="${t.id}" class="flex items-center gap-4 w-full cursor-pointer">
+                            <span class="check-bg w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0 transition ${done ? 'bg-leaf border-leaf' : ''}">
+                                <span class="check-icon text-white text-sm ${done ? 'opacity-100 scale-100' : 'opacity-0 scale-0'} transition">✓</span>
+                            </span>
+                            <span class="text-2xl flex-shrink-0">${t.emoji}</span>
+                            <span class="text-sm font-medium ${done ? 'text-gray-500 line-through' : 'text-coffee'}">${t.text}</span>
+                        </label>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('daily-tip').textContent = dailyTips[Math.floor(Math.random() * dailyTips.length)];
+
+            updateBadges();
+
+            const chalContainer = document.getElementById('all-challenges');
+            chalContainer.innerHTML = allChallenges.map(c => `
+                <div class="bg-white rounded-xl p-4 border border-coffee/5 shadow-sm hover:shadow-md transition text-center">
+                    <span class="text-2xl block mb-1">${c.emoji}</span>
+                    <p class="text-xs font-semibold text-coffee">${c.name}</p>
+                    <span class="text-xs text-leaf font-bold">${c.pts}</span>
+                </div>
+            `).join('');
+
+            renderWeek();
+        }
+
+        function toggleTask(id) {
+            const idx = completedToday.indexOf(id);
+            if (idx === -1) {
+                completedToday.push(id);
+                totalPoints += 10;
+            } else {
+                completedToday.splice(idx, 1);
+                totalPoints -= 10;
+            }
+            localStorage.setItem('kapi_completed_today', JSON.stringify(completedToday));
+            localStorage.setItem('kapi_points', totalPoints);
+            updateUI();
+
+            if (dailyTasks.every(t => completedToday.includes(t.id))) {
+                document.getElementById('celebration-text').textContent = 'Cả nhà đã hoàn thành 5 hành động xanh hôm nay! 🌿 Hãy duy trì để bảo vệ hành tinh của chúng ta!';
+                document.getElementById('celebration-overlay').classList.remove('hidden');
+            }
+        }
+
+        function updateBadges() {
+            const badges = [
+                { id: 'badge-1', threshold: 1, earned: streak >= 1 },
+                { id: 'badge-2', threshold: 7, earned: streak >= 7 },
+                { id: 'badge-3', threshold: 30, earned: streak >= 30 },
+                { id: 'badge-4', threshold: 100, earned: streak >= 100 },
+            ];
+            badges.forEach(b => {
+                const el = document.getElementById(b.id);
+                if (b.earned) {
+                    el.classList.add('ring-2', 'ring-leaf', 'ring-offset-2');
+                    el.querySelector(':last-child').textContent = '✅ Đã đạt';
+                }
+            });
+        }
+
+        function renderWeek() {
+            const now = new Date();
+            now.setDate(now.getDate() + weekOffset * 7);
+            const dayOfWeek = now.getDay();
+            const monday = new Date(now);
+            monday.setDate(now.getDate() - ((dayOfWeek + 6) % 7));
+
+            const options = { month: 'long', day: 'numeric' };
+            const sunday = new Date(monday);
+            sunday.setDate(monday.getDate() + 6);
+            document.getElementById('week-label').textContent = `${monday.toLocaleDateString('vi-VN', options)} - ${sunday.toLocaleDateString('vi-VN', options)}`;
+
+            const grid = document.getElementById('week-grid');
+            grid.innerHTML = '';
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(monday);
+                d.setDate(monday.getDate() + i);
+                const dateStr = getDateStr(d);
+                const isToday = dateStr === today;
+                const dayNames = ['T2','T3','T4','T5','T6','T7','CN'];
+                const dayEl = document.createElement('div');
+                dayEl.className = `p-2 rounded-lg ${isToday ? 'bg-leaf text-white font-bold' : 'bg-cream text-coffee'}`;
+                dayEl.innerHTML = `<div class="font-bold">${dayNames[i]}</div><div class="text-lg">${d.getDate()}</div>`;
+                grid.appendChild(dayEl);
+            }
+        }
+
+        function changeWeek(dir) {
+            weekOffset += dir;
+            renderWeek();
+        }
+
+        updateUI();
+
+        function reveal() {
+            document.querySelectorAll('.reveal').forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 60) el.classList.add('active');
+            });
+        }
+        window.addEventListener('scroll', reveal);
+        window.addEventListener('load', reveal);
+    </script>
+</body>
+</html>
